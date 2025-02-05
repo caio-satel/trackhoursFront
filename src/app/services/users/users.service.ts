@@ -35,19 +35,18 @@ export class UsersService {
 
   // POST - Cadastrar usuário
   createUser(user: UsuarioDTO): Observable<UsuarioDTO> {
-    const url = `${this.apiUrl}/new`;
-    return this.http.post<UsuarioDTO>(url, user);
+    return this.http.post<UsuarioDTO>(this.apiUrl, user);
   }
 
   // PUT - Atualizar usuário
   updateUser(id: number, user: UsuarioDTO): Observable<UsuarioDTO> {
-    const url = `${this.apiUrl}/update/${id}`;
+    const url = `${this.apiUrl}/${id}`;
     return this.http.put<UsuarioDTO>(url, user);
   }
 
   // DELETE - Deletar usuário
   deleteUser(id: number): Observable<UsuarioDTO> {
-    const url = `${this.apiUrl}/delete/${id}`;
+    const url = `${this.apiUrl}/${id}`;
     return this.http.delete<UsuarioDTO>(url);
   }
 }
