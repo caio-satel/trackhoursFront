@@ -2,14 +2,14 @@ export interface Usuario {
   id?: number;
   nome: string;
   email: string;
-  senha?: string; // Opcional, pois pode não ser retornado pela API
+  senha: string;
   dataCriacao: Date;
   ultimoLogin?: Date;
-  perfil: 'ADMIN' | 'USUARIO'; // Definindo um tipo restrito para perfil
+  perfil: 'ADMIN' | 'USUARIO'; // Talvez mudar para ENUM
 }
 
 export interface UsuarioDTO {
-  nome: string;
+  nome?: string;
   email: string;
   senha: string;
 }
