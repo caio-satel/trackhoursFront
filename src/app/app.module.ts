@@ -8,11 +8,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 //PrimeNG
 import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { LoginHomeComponent } from './modules/login-home/login-home.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginHomeComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +28,8 @@ import { ToastModule } from 'primeng/toast';
     ToastModule
   ],
   providers: [
-    provideClientHydration()
+    provideClientHydration(),
+    MessageService
   ],
   bootstrap: [AppComponent]
 })
