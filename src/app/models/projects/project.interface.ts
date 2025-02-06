@@ -5,7 +5,7 @@ export interface Projeto {
   dataFim: Date;
   status: 'PLANEJADO' | 'EM_ANDAMENTO' | 'CONCLUIDO' | 'CANCELADO';
   idUsuarioResponsavel: number;
-  dataCriacao: Date;
+  dataCriacao?: Date;
   prioridade: 'ALTA' | 'MEDIA' | 'BAIXA';
 }
 

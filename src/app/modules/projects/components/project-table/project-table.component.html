@@ -1,0 +1,64 @@
+<div class="card m-3 p-3">
+  <p-table
+    #dt2
+    scrollHeight="430px"
+    [paginator]="true"
+    [rows]="10"
+    [tableStyle]="{ 'min-width': '50rem', 'min-height': '30rem' }"
+    [rowsPerPageOptions]="[5,10, 20]"
+    [value]="projects"
+    responsiveLayout="stack"
+    [breakpoint]="'960px'"
+    selectionMode="single" >
+    <ng-template pTemplate="caption">
+      <div class="flex">
+        <span class="p-input-icon-left ml-auto">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" placeholder="Procure por projeto" (input)="search($event)"  />
+        </span>
+      </div>
+  </ng-template>
+      <ng-template pTemplate="header" let-columns>
+          <tr>
+              <th pSortableColumn="prioridade" style="width:7%">Prioridade<p-sortIcon field="prioridade" /></th>
+              <th pSortableColumn="nome" style="width:20%">Nome <p-sortIcon field="nome" /></th>
+              <th pSortableColumn="dataInicio" style="width:10%">Data de Inicio <p-sortIcon field="dataInicio" /></th>
+              <th pSortableColumn="dataFim" style="width:10%">Data de Término <p-sortIcon field="dataFim" /></th>
+              <th style="width:10%">Responsável</th>
+              <th pSortableColumn="status" style="width:10%">Status <p-sortIcon field="status" /></th>
+              <th>Ações</th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-projects let-columns="cols">
+          <tr>
+              <td>
+                <p-tag
+                [value]="projects.prioridade"
+                [severity]="getSeverityPriority(projects.prioridade)" />
+              </td>
+              <td>
+                  <span class="p-column-title">Nome</span>{{projects.nome}}
+              </td>
+              <td>
+                  <span class="p-column-title">Data de Início</span>{{projects.dataInicio | date: 'dd/MM/yyyy - HH:mm' }}
+              </td>
+              <td>
+                  <span class="p-column-title">Data de Término</span>{{projects.dataFim | date: 'dd/MM/yyyy - HH:mm'}}
+              </td>
+              <td>
+                <span class="p-column-title">Responsável</span>{{ getUsuarioNome(projects.idUsuarioResponsavel) }}
+              </td>
+              <td>
+                  <p-tag
+                      [value]="projects.status"
+                      [severity]="getSeverityStatus(projects.status)" />
+              </td>
+              <td>
+                  <span class="p-column-title">Ações</span>
+                  <p-button icon="pi pi-pencil" label="Editar" styleClass="p-button-outlined p-button-text mr-3"></p-button>
+                  <p-button icon="pi pi-trash" label="Excluir" severity="danger" styleClass="p-button-outlined p-button-text mr-3"></p-button>
+              </td>
+          </tr>
+      </ng-template>
+  </p-table>
+</div>

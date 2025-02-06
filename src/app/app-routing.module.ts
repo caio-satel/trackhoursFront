@@ -6,7 +6,8 @@ import { LoginHomeComponent } from './modules/login-home/login-home.component';
 const routes: Routes = [
   { path: '', component: LoginHomeComponent},
   { path: 'home', component: LoginHomeComponent },
-  { path: 'dashboard', loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule) } // Carregar módulo de forma dinâmica (lazy loading)
+  { path: 'dashboard', loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule) }, // Carregar módulo de forma dinâmica (lazy loading)
+  { path: 'projects', loadChildren: () => import('./modules/projects/projects.module').then(m => m.ProjectsModule) } // Carregar módulo de forma dinâmica (lazy loading
 ];
 
 @NgModule({
