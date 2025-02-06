@@ -1,8 +1,10 @@
+@import '../node_modules/@syncfusion/ej2-material-theme/styles/material.css';
 html, body {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
   width: 100vw;
   height: 100vh;
-  font-family: "Quicksand", serif;
+  overflow: hidden;
+  font-family: "Lato", serif;
 }

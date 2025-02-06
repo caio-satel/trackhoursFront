@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Projeto } from '../../../models/projects/project.interface';
 
 @Component({
   selector: 'app-projects',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './projects.component.css'
 })
 export class ProjectsComponent {
-
+  date: Projeto[] | undefined;
 }

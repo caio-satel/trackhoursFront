@@ -1,10 +1,12 @@
+import { SortEvent } from 'primeng/api';
 import { Projeto } from './../../../../models/projects/project.interface';
 import { ProjectsService } from './../../../../services/projects/projects.service';
 import { Component } from '@angular/core';
 
-interface Column {
-  field: string;
-  header: string;
+interface SortEvent1 {
+  data: any[];    // Os dados da tabela que estão sendo ordenados
+  field: string;  // O nome da coluna que está sendo ordenada (ex: "prioridade")
+  order: number;  // Direção da ordenação: 1 para ascendente, -1 para descendente
 }
 
 @Component({
@@ -149,9 +151,10 @@ export class ProjectTableComponent {
           dataInicio: new Date(2024, 1, 10),
           dataFim: new Date(2024, 1, 10),
           idUsuarioResponsavel: 103,
-          status: 'CONCLUIDO',
+          status: 'CANCELADO',
         },
       ];
+      this.projectsGeral = [...this.projects];
   }
 
   getUsuarioNome(id: number): string {
@@ -187,10 +190,10 @@ export class ProjectTableComponent {
 search(event : Event){
   //Recebe o evento de INPUT - Toda vez que algo é digitado no input, ele é capturado
   const target = event.target as HTMLInputElement;
-  //Transforma o value do input em string (todos os caracteres ficam minúsculos)
-  const value = target.value.toLowerCase();
+  //Transforma o value do input em string (todos os caracteres ficam minúsculos) e remove espaços
+  const value = target.value.trim().toLowerCase();
 
-  //Filtra os clientes com base no valor inserido no input, atualizando a lista de clientes
+  //Filtra os clientes com base no valor inserido no input, atualizando a lista de projetos
   this.projects = this.projectsGeral?.filter(Projeto => {
     return Projeto.nome.toLowerCase().includes(value);
   })
