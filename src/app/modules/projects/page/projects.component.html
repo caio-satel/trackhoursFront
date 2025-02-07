@@ -2,8 +2,14 @@
 <div class="box">
   <div class="box-content">
     <h1>Projetos</h1>
-    <app-project-table></app-project-table>
+    <app-project-table (projectEvent)="handleProjectAction($event)" (deleteProjectEvent)="handleDeleteProjectAction($event)"></app-project-table>
   </div>
+</div>
+<div class="card flex justify-content-center gap-2">
+  <p-toast />
+  <p-confirmDialog />
+  <p-button label="Save" [outlined]="true" />
+  <p-button label="Delete" severity="danger" [outlined]="true" />
 </div>
 
 

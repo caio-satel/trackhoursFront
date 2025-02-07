@@ -13,6 +13,12 @@ import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { CardModule } from 'primeng/card';
 import { CalendarModule } from 'primeng/calendar';
+import { TooltipModule } from 'primeng/tooltip';
+import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
+import { DropdownModule } from 'primeng/dropdown';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 
 
@@ -33,8 +39,14 @@ import { CalendarModule } from 'primeng/calendar';
     InputIconModule,
     CardModule,
     CalendarModule,
+    TooltipModule,
+    ConfirmDialogModule,
+    DynamicDialogModule,
+    DropdownModule,
+    ToastModule,
     //SharedModule
     SharedModule
-]
+],
+  providers: [DialogService, ConfirmationService]
 })
 export class ProjectsModule { }

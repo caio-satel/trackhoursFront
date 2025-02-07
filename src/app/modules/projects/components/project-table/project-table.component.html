@@ -10,7 +10,7 @@
     [rows]="10"
     [rowsPerPageOptions]="[5,10, 20]">
     <ng-template pTemplate="caption">
-      <p-button label="New Project" severity="success" class="p-input-icon-left ml-auto">
+      <p-button label="New Project" severity="success" pTooltip="Criar novo projeto" class="p-input-icon-left ml-auto" (onClick)="handleProjectEvent(addProjectEvent)">
         <i class="pi pi-plus mr-2"></i>
       </p-button>
       <div class="flex">
@@ -43,7 +43,7 @@
               </td>
               <td>
                   <span class="p-column-title">Data de Início</span>{{projects.dataInicio | date: 'dd/MM/yyyy - HH:mm' }}
-              </td> 
+              </td>
               <td>
                   <span class="p-column-title">Data de Término</span>{{projects.dataFim | date: 'dd/MM/yyyy - HH:mm'}}
               </td>
@@ -57,8 +57,8 @@
               </td>
               <td>
                   <span class="p-column-title">Ações</span>
-                  <p-button icon="pi pi-pencil" severity="info" styleClass="p-button-rounded p-button-outlined p-button-text mr-3"></p-button>
-                  <p-button icon="pi pi-trash" severity="danger" styleClass="p-button-rounded p-button-outlined p-button-text mr-3"></p-button>
+                  <p-button icon="pi pi-pencil" severity="info" pTooltip="Editar projeto" styleClass="p-button-rounded p-button-outlined p-button-text mr-3" (onClick)="handleProjectEvent(editProjectEvent, projects?.id)"></p-button>
+                  <p-button icon="pi pi-trash" severity="danger" pTooltip="Deletar projeto" styleClass="p-button-rounded p-button-outlined p-button-text mr-3" (onClick)="handleDeleteProjectEvent(projects?.id, projects?.nome)"></p-button>
               </td>
           </tr>
       </ng-template>

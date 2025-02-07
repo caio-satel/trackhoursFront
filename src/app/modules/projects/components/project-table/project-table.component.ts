@@ -1,13 +1,9 @@
-import { SortEvent } from 'primeng/api';
+import { ProjectEvent } from '../../../../models/enums/projects/projectEvent';
+import { DeleteProjectAction } from '../../../../models/event/DeleteProjectAction';
+import { EventAction } from '../../../../models/event/eventAction';
 import { Projeto } from './../../../../models/projects/project.interface';
 import { ProjectsService } from './../../../../services/projects/projects.service';
-import { Component } from '@angular/core';
-
-interface SortEvent1 {
-  data: any[];    // Os dados da tabela que estão sendo ordenados
-  field: string;  // O nome da coluna que está sendo ordenada (ex: "prioridade")
-  order: number;  // Direção da ordenação: 1 para ascendente, -1 para descendente
-}
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-project-table',
@@ -17,12 +13,15 @@ interface SortEvent1 {
 export class ProjectTableComponent {
   projects!: Projeto[];
   projectsGeral!: Projeto[];
-  cols!: ['Prioridade', 'Nome', 'Inicio', 'Final', 'Responsável', 'Status', 'Ações'];
+  @Output() projectEvent = new EventEmitter<EventAction>();
+  @Output() deleteProjectEvent = new EventEmitter<DeleteProjectAction>();
 
-  userMap: Map<number, string> = new Map();
+  public addProjectEvent = ProjectEvent.ADD;
+  public editProjectEvent = ProjectEvent.EDIT;
 
   constructor(private ProjectsService: ProjectsService) {}
 
+  userMap: Map<number, string> = new Map();
   ngOnInit() {
       // this.ProjectsService.getProjects().subscribe((data: Projeto[]) => {
       //     this.projects = data;
@@ -34,6 +33,7 @@ export class ProjectTableComponent {
 
       this.projects = [
         {
+          id: 1,
           prioridade: 'ALTA',
           nome: 'Projeto Alpha',
           dataInicio: new Date(2024, 1, 10),
@@ -42,6 +42,7 @@ export class ProjectTableComponent {
           status: 'EM_ANDAMENTO',
         },
         {
+          id: 2,
           prioridade: 'MEDIA',
           nome: 'Projeto Beta',
           dataInicio: new Date(2024, 1, 15),
@@ -50,6 +51,7 @@ export class ProjectTableComponent {
           status: 'PLANEJADO',
         },
         {
+          id: 3,
           prioridade: 'BAIXA',
           nome: 'Projeto Gama',
           dataInicio: new Date(2024, 1, 10),
@@ -58,6 +60,7 @@ export class ProjectTableComponent {
           status: 'CONCLUIDO',
         },
         {
+          id: 4,
           prioridade: 'BAIXA',
           nome: 'Projeto Gama',
           dataInicio: new Date(2024, 1, 10),
@@ -66,6 +69,7 @@ export class ProjectTableComponent {
           status: 'CONCLUIDO',
         },
         {
+          id: 5,
           prioridade: 'BAIXA',
           nome: 'Projeto Gama',
           dataInicio: new Date(2024, 1, 10),
@@ -74,6 +78,7 @@ export class ProjectTableComponent {
           status: 'CONCLUIDO',
         },
         {
+          id: 6,
           prioridade: 'BAIXA',
           nome: 'Projeto Gama',
           dataInicio: new Date(2024, 1, 20),
@@ -82,6 +87,7 @@ export class ProjectTableComponent {
           status: 'CONCLUIDO',
         },
         {
+          id: 7,
           prioridade: 'BAIXA',
           nome: 'Projeto Gama',
           dataInicio: new Date(2024, 1, 10),
@@ -90,6 +96,7 @@ export class ProjectTableComponent {
           status: 'CONCLUIDO',
         },
         {
+          id: 8,
           prioridade: 'BAIXA',
           nome: 'Projeto Gama',
           dataInicio: new Date(2024, 1, 10),
@@ -98,6 +105,7 @@ export class ProjectTableComponent {
           status: 'CONCLUIDO',
         },
         {
+          id: 9,
           prioridade: 'BAIXA',
           nome: 'Projeto Gama',
           dataInicio: new Date(2024, 1, 10),
@@ -106,6 +114,7 @@ export class ProjectTableComponent {
           status: 'CONCLUIDO',
         },
         {
+          id: 10,
           prioridade: 'BAIXA',
           nome: 'Projeto Gama',
           dataInicio: new Date(2024, 1, 10),
@@ -114,6 +123,7 @@ export class ProjectTableComponent {
           status: 'CONCLUIDO',
         },
         {
+          id: 11,
           prioridade: 'BAIXA',
           nome: 'Projeto Gama',
           dataInicio: new Date(2024, 1, 10),
@@ -122,6 +132,7 @@ export class ProjectTableComponent {
           status: 'CONCLUIDO',
         },
         {
+          id: 12,
           prioridade: 'BAIXA',
           nome: 'Projeto Gama',
           dataInicio: new Date(2024, 1, 10),
@@ -130,6 +141,7 @@ export class ProjectTableComponent {
           status: 'CONCLUIDO',
         },
         {
+          id: 13,
           prioridade: 'BAIXA',
           nome: 'Projeto Gama',
           dataInicio: new Date(2024, 1, 10),
@@ -138,6 +150,7 @@ export class ProjectTableComponent {
           status: 'CONCLUIDO',
         },
         {
+          id: 14,
           prioridade: 'BAIXA',
           nome: 'Projeto Gama',
           dataInicio: new Date(2024, 1, 10),
@@ -146,6 +159,7 @@ export class ProjectTableComponent {
           status: 'CONCLUIDO',
         },
         {
+          id: 15,
           prioridade: 'BAIXA',
           nome: 'Projeto Gama',
           dataInicio: new Date(2024, 1, 10),
@@ -155,6 +169,20 @@ export class ProjectTableComponent {
         },
       ];
       this.projectsGeral = [...this.projects];
+  }
+
+  handleProjectEvent(action: string, id?: number) {
+    if (action && action!== '') {
+      const projectEventData = id && id !== 0 ? { action, id } : { action };
+      // Emitir evento de projeto
+      this.projectEvent.emit(projectEventData);
+    }
+  }
+
+  handleDeleteProjectEvent(id: number, name: string): void {
+    if (id !== 0 && name !== '') {
+      this.deleteProjectEvent.emit({ id, name });
+    }
   }
 
   getUsuarioNome(id: number): string {
