@@ -1,51 +1,81 @@
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ProjectsService } from './../../../services/projects/projects.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { EventAction } from '../../../models/event/eventAction';
-import { takeUntil } from 'rxjs';
+import { ProjectFormComponent } from '../components/project-form/project-form.component';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.css'
 })
-export class ProjectsComponent {
+export class ProjectsComponent implements OnDestroy {
+  private ref!: DynamicDialogRef;
+  private destroy$ = new Subject<void>(); // Controlador de destruição
 
-  constructor(private ConfirmationService: ConfirmationService, private messageService: MessageService, private ProjectsService: ProjectsService) { }
+  constructor(
+    private ConfirmationService: ConfirmationService,
+    private messageService: MessageService,
+    private ProjectsService: ProjectsService,
+    private DialogService: DialogService
+  ) {}
 
   handleProjectAction(event: EventAction): void {
-    console.log(event);
+    if (event) {
+      this.ref = this.DialogService.open(ProjectFormComponent, {
+        header: event?.action,
+        contentStyle: { overflow: 'auto' },
+        baseZIndex: 10000,
+        maximizable: false,
+        data: { event: event }
+      });
+
+      this.ref.onClose
+        .pipe(takeUntil(this.destroy$)) // Cancela quando destroy$ for acionado
+        .subscribe((response: any) => {
+          if (response) {
+            this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Projeto criado com sucesso!', life: 2500 });
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Erro ao criar projeto!', life: 2500 });
+          }
+        });
+    }
   }
 
-  handleDeleteProjectAction(project: {
-    id: number;
-    name: string;
-  }): void {
+  handleDeleteProjectAction(project: { id: number; name: string }): void {
     if (project) {
       this.ConfirmationService.confirm({
         message: `Tem certeza que deseja deletar o projeto ${project.name}?`,
         header: 'Confirmação',
         icon: 'pi pi-exclamation-triangle',
-        acceptButtonStyleClass:"p-button-danger p-button-text",
-        rejectButtonStyleClass:"p-button-text p-button-text",
+        acceptButtonStyleClass: "p-button-danger p-button-text",
+        rejectButtonStyleClass: "p-button-text p-button-text",
         acceptIcon: 'none',
         rejectIcon: 'none',
         acceptLabel: 'Sim',
         rejectLabel: 'Não',
         accept: () => {
-            this.ProjectsService.deleteProject(project.id).subscribe({
-                next: (response) => {
-                    if (response) {
-                        this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Projeto deletado com sucesso!', life: 2500 });
-                    }
-                },
-                error: () => {
-                    this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Erro ao deletar projeto!', life: 2500 });
+          this.ProjectsService.deleteProject(project.id)
+            .pipe(takeUntil(this.destroy$)) // Cancela quando destroy$ for acionado
+            .subscribe({
+              next: (response) => {
+                if (response) {
+                  this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Projeto deletado com sucesso!', life: 2500 });
                 }
+              },
+              error: () => {
+                this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Erro ao deletar projeto!', life: 2500 });
+              }
             });
         }
-    });
+      });
     }
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next(); // Dispara a finalização das inscrições
+    this.destroy$.complete(); // Finaliza o Subject
+  }
 }

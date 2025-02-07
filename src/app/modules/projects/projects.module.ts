@@ -19,17 +19,21 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-
-
+import { ProjectFormComponent } from './components/project-form/project-form.component';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     ProjectTableComponent,
-    ProjectsComponent
+    ProjectsComponent,
+    ProjectFormComponent
   ],
   imports: [
     CommonModule,
     TableModule,
+    ReactiveFormsModule,
+    FormsModule,
     RouterModule.forChild(projectsRoutes),
     //PrimeNG
     TagModule,
@@ -44,6 +48,8 @@ import { ToastModule } from 'primeng/toast';
     DynamicDialogModule,
     DropdownModule,
     ToastModule,
+    FloatLabelModule,
+    DropdownModule,
     //SharedModule
     SharedModule
 ],
