@@ -46,28 +46,49 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   }
 
   submitAddProjectForm(): void {
-    if (this.addProductForm?.valid) {
-      const formValue = this.addProductForm.value;
-
-      const project: ProjetoDTO = {
-        nome: formValue.nome as string,
-        dataInicio: formValue.dataInicio ? new Date(formValue.dataInicio) : new Date(),
-        dataFim: formValue.dataFim ? new Date(formValue.dataFim) : new Date(),
-        status: formValue.status as 'PLANEJADO' | 'EM_ANDAMENTO' | 'CONCLUIDO' | 'CANCELADO',
-        idUsuarioResponsavel: formValue.idUsuarioResponsavel ?? 0,
-        prioridade: formValue.prioridade as 'ALTA' | 'MEDIA' | 'BAIXA'
-      };
-
-      this.ProjectsService.createProject(project).subscribe((response: any) => {
-        if (response) {
-          this.MessageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Projeto criado com sucesso!', life: 2500 });
-        }else {
-          this.MessageService.add({ severity: 'error', summary: 'Erro', detail: 'Erro ao criar projeto!', life: 2500 });
-        }
+    if (!this.addProductForm.valid || !this.addProductForm.value) {
+      this.MessageService.add({
+        severity: 'warn',
+        summary: 'Atenção',
+        detail: 'Preencha todos os campos obrigatórios!',
+        life: 2500
       });
-
-      this.addProductForm.reset();
+      return; // Impede o envio se o formulário estiver inválido
     }
+
+    const formValue = this.addProductForm.value;
+
+    const project: ProjetoDTO = {
+      nome: formValue.nome as string,
+      dataInicio: formValue.dataInicio ? new Date(formValue.dataInicio) : new Date(),
+      dataFim: formValue.dataFim ? new Date(formValue.dataFim) : new Date(),
+      status: formValue.status as 'PLANEJADO' | 'EM_ANDAMENTO' | 'CONCLUIDO' | 'CANCELADO',
+      idUsuarioResponsavel: formValue.idUsuarioResponsavel ?? 0,
+      prioridade: formValue.prioridade as 'ALTA' | 'MEDIA' | 'BAIXA'
+    };
+
+    this.ProjectsService.createProject(project).subscribe({
+      next: (response) => {
+        if (response) {
+          this.MessageService.add({
+            severity: 'success',
+            summary: 'Sucesso',
+            detail: 'Projeto criado com sucesso!',
+            life: 2500
+          });
+
+          this.addProductForm.reset(); // Limpa o formulário após sucesso
+        }
+      },
+      error: () => {
+        this.MessageService.add({
+          severity: 'error',
+          summary: 'Erro',
+          detail: 'Erro ao criar projeto!',
+          life: 2500
+        });
+      }
+    });
   }
 
 }

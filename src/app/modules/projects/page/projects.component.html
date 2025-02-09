@@ -5,11 +5,12 @@
     <app-project-table (projectEvent)="handleProjectAction($event)" (deleteProjectEvent)="handleDeleteProjectAction($event)"></app-project-table>
   </div>
 </div>
-<div class="card flex justify-content-center gap-2">
+<!-- Dialog de confirmação de exclusão -->
+<div>
   <p-toast />
   <p-confirmDialog />
-  <p-button label="Save" [outlined]="true" />
-  <p-button label="Delete" severity="danger" [outlined]="true" />
+  <p-button ></p-button>
+  <p-button />
 </div>
 
 

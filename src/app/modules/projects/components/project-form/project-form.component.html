@@ -1,33 +1,24 @@
-<div class="dialog-content">
-  <p-card class="card">
-    <form [formGroup]="addProductForm" (ngSubmit)="submitAddProjectForm()" >
-      <div class="flex flex-column justify-content-center gap-3 p-3">
-        <p-floatLabel>
-          <input pInputText id="prioridade" formControlName="prioridade" />
-          <label for="prioridade">Prioridade</label>
-        </p-floatLabel>
-        <p-floatLabel>
-          <input pInputText id="nome" formControlName="nome" />
-          <label for="nome">Nome</label>
-        </p-floatLabel>
-        <p-floatLabel>
-          <p-calendar [showOnFocus]="false" [showIcon]="false" inputId="dataInicio" dateFormat="dd.mm.yy" formControlName="dataInicio"/>
-          <label for="dataInicio">Data de Início</label>
-        </p-floatLabel>
-        <p-floatLabel>
-          <p-calendar [showOnFocus]="false" [showIcon]="false" inputId="dataFim" dateFormat="dd.mm.yy" formControlName="dataInicio"/>
-          <label for="dataFim">Data de Término</label>
-        </p-floatLabel>
-        <p-dropdown
-          [options]="users"
-          [(ngModel)]="userSelected"
-          optionLabel="nome"
-          optionValue="id"
-          [showClear]="true"
-          placeholder="Selecione um responsável"
-          formControlName="idUsuarioResponsavel" />
-      </div>
-      <p-button type="submit" label="Criar" icon="pi pi-check" class="p-button-success ml-3" [disabled]="!addProductForm.valid"></p-button>
-    </form>
-  </p-card>
-</div>
+<form [formGroup]="addProductForm" (ngSubmit)="submitAddProjectForm()">
+  <p-floatLabel>
+    <input pInputText id="prioridade" formControlName="prioridade" />
+    <label for="prioridade">Prioridade</label>
+  </p-floatLabel>
+  <p-floatLabel>
+    <input pInputText id="nome" formControlName="nome" />
+    <label for="nome">Nome</label>
+  </p-floatLabel>
+  <p-floatLabel class="mb-2">
+    <p-calendar [showOnFocus]="false" [showIcon]="true" inputId="dataInicio" [appendTo]="'body'" dateFormat="dd/mm/yy"
+      formControlName="dataInicio" />
+    <label for="dataInicio">Data de Início</label>
+  </p-floatLabel>
+  <p-floatLabel>
+    <p-calendar [showOnFocus]="false" [showIcon]="true" inputId="dataFim" [appendTo]="'body'" dateFormat="dd/mm/yy"
+      formControlName="dataInicio" />
+    <label for="dataFim">Data de Término</label>
+  </p-floatLabel>
+  <p-dropdown [options]="users" [(ngModel)]="userSelected" optionLabel="nome" optionValue="id" [showClear]="true"
+    placeholder="Selecione um responsável" formControlName="idUsuarioResponsavel" [appendTo]="'body'" />
+  <p-button type="submit" label="New Project" icon="pi pi-check"
+    ></p-button>
+</form>
