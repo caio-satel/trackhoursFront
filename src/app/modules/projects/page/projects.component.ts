@@ -31,17 +31,11 @@ export class ProjectsComponent implements OnDestroy {
         maximizable: false,
         data: { event: event }
       });
-
-      this.ref.onClose
-        .pipe(takeUntil(this.destroy$)) // Cancela quando destroy$ for acionado
-        .subscribe((response: any) => {
-          if (response) {
-            this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Projeto criado com sucesso!', life: 2500 });
-          } else {
-            this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Erro ao criar projeto!', life: 2500 });
-          }
-        });
     }
+    this.ref.onClose
+      .pipe(takeUntil(this.destroy$)) // Cancela quando destroy$ for acionado
+      .subscribe(() => {
+      });
   }
 
   handleDeleteProjectAction(project: { id: number; name: string }): void {
